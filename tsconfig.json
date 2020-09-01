@@ -2,7 +2,8 @@
   "target": "ES2019",
   "compilerOptions": {
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "noFallthroughCasesInSwitch": true,
   },
   "include": ["src/**/*"]
 }

@@ -3,20 +3,23 @@
 import * as T from './types';
 import * as GameBoard from './data/game-board';
 import * as Instruction from './data/instruction';
-import * as Result from './data/result';
 
-import { 
+import {
   instructionGeneratorFromAsyncIterator,
   executeInstructions
 } from './executor';
 
-async function* arrayToAsyncGenerator<A>(arr: Array<A>): AsyncIterableIterator<A> {
+const arrayToAsyncGenerator = async function* arrayToAsyncGenerator<A>(
+  arr: Array<A>
+): AsyncIterableIterator<A> {
   for (const item of arr) {
     yield item;
   }
-}
+};
 
-async function collectAsyncGeneratorItems<A>(gen: AsyncIterableIterator<A>): Promise<Array<A>> {
+const collectAsyncGeneratorItems = async <A>(
+  gen: AsyncIterableIterator<A>
+): Promise<Array<A>> => {
   const items: Array<A> = [];
 
   for await (const item of gen) {
@@ -24,16 +27,12 @@ async function collectAsyncGeneratorItems<A>(gen: AsyncIterableIterator<A>): Pro
   }
 
   return items;
-}
+};
 
 test('instruction generation', async () => {
-  const gen = instructionGeneratorFromAsyncIterator(arrayToAsyncGenerator([
-    'place 0,0,north',
-    'move',
-    '',
-    'move',
-    'report'
-  ]));
+  const gen = instructionGeneratorFromAsyncIterator(
+    arrayToAsyncGenerator(['place 0,0,north', 'move', '', 'move', 'report'])
+  );
 
   const items = await collectAsyncGeneratorItems(gen);
 
@@ -47,19 +46,18 @@ test('instruction generation', async () => {
 });
 
 test('errors in instructions', async () => {
-  const gen = instructionGeneratorFromAsyncIterator(arrayToAsyncGenerator([
-    'place 5,5,East',
-    '  move  ',
-    'Nope',
-    'Hello'
-  ]));
+  const gen = instructionGeneratorFromAsyncIterator(
+    arrayToAsyncGenerator(['place 5,5,East', '  move  ', 'Nope', 'Hello'])
+  );
 
   expect.assertions(1);
 
   try {
     await collectAsyncGeneratorItems(gen);
   } catch (err) {
-    expect(err.message).toBe('Parsing error, line 3: Unrecognized command: Nope')
+    expect(err.message).toBe(
+      'Parsing error, line 3: Unrecognized command: Nope'
+    );
   }
 });
 
@@ -82,10 +80,10 @@ test('executing instructions', async () => {
   const items = await collectAsyncGeneratorItems(gen);
 
   items.forEach((effectFn) => {
-    effectFn(effects)
+    effectFn(effects);
   });
 
-  expect((effects.report as jest.Mock).mock.calls).toEqual(
-    [[0, 2, T.CardinalDirection.North]]
-  );
+  expect((effects.report as jest.Mock).mock.calls).toEqual([
+    [0, 2, T.CardinalDirection.North]
+  ]);
 });

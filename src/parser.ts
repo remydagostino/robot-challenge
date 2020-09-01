@@ -3,17 +3,20 @@ import * as T from './types';
 import * as Result from './data/result';
 import * as Instruction from './data/instruction';
 
-type CommandAndArgs = { command: string, args: string };
+type CommandAndArgs = { command: string; args: string };
 
-export function parseLine(line: string): T.Result<T.Instruction, string> {
+export const parseLine = (line: string): T.Result<T.Instruction, string> => {
   if (line.trim() === '') {
     return Result.success(Instruction.ignore());
   }
 
   return Result.flatMap(parseCommandAndArgs, splitLine(line));
-}
+};
 
-function parseCommandAndArgs({ command, args }: CommandAndArgs): T.Result<T.Instruction, string> {
+const parseCommandAndArgs = ({
+  command,
+  args
+}: CommandAndArgs): T.Result<T.Instruction, string> => {
   switch (command.toLowerCase()) {
     case '#': // <- a comment
       return Result.success(Instruction.ignore());
@@ -38,21 +41,23 @@ function parseCommandAndArgs({ command, args }: CommandAndArgs): T.Result<T.Inst
     default:
       return Result.failure(`Unrecognized command: ${command}`);
   }
-}
+};
 
-function splitLine(line: string): T.Result<CommandAndArgs, string> {
+const splitLine = (line: string): T.Result<CommandAndArgs, string> => {
   const matchResult = /^(\S+)\s*(.+)?$/.exec(line.trim());
 
   if (matchResult != null) {
-    const [_, command, args] = matchResult;
+    const [, command, args] = matchResult;
 
     return Result.success({ command, args: args || '' });
   } else {
-    return Result.failure(`Could not parse line: ${line}`)
+    return Result.failure(`Could not parse line: ${line}`);
   }
-}
+};
 
-function parsePlaceCommandWithArgs(args: string): T.Result<T.PlaceInstruction, string> {
+const parsePlaceCommandWithArgs = (
+  args: string
+): T.Result<T.PlaceInstruction, string> => {
   const argsMatch = args.split(',');
 
   if (argsMatch.length === 3) {
@@ -63,32 +68,36 @@ function parsePlaceCommandWithArgs(args: string): T.Result<T.PlaceInstruction, s
       stringToInt(xMatch),
       stringToInt(yMatch),
       stringToCardinalDirection(directionMatch)
-    )
+    );
   } else {
     return Result.failure(`Unrecognized arguments for PLACE command: ${args}`);
   }
-}
+};
 
-function stringToInt(str: string): T.Result<number, string> {
+const stringToInt = (str: string): T.Result<number, string> => {
   const num = Number(str);
 
   // Only integers and not not numbers allowed! :D
   return !Number.isNaN(num) && /^\-?\d+$/.test(str.trim())
     ? Result.success(num)
     : Result.failure(`Could not parse string as integer: ${str}`);
-}
+};
 
-function stringToCardinalDirection(str: string): T.Result<T.CardinalDirection, string> {
+const stringToCardinalDirection = (
+  str: string
+): T.Result<T.CardinalDirection, string> => {
   switch (str.trim().toLowerCase()) {
-    case 'north': 
+    case 'north':
       return Result.success(T.CardinalDirection.North);
-    case 'east': 
+    case 'east':
       return Result.success(T.CardinalDirection.East);
-    case 'south': 
+    case 'south':
       return Result.success(T.CardinalDirection.South);
-    case 'west': 
+    case 'west':
       return Result.success(T.CardinalDirection.West);
     default:
-      return Result.failure(`Could not parse string as cardinal direction: ${str}`)
+      return Result.failure(
+        `Could not parse string as cardinal direction: ${str}`
+      );
   }
-}
+};

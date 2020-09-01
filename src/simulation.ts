@@ -1,7 +1,10 @@
 import * as T from './types';
 import * as Direction from './data/directions';
 
-export function simulate(boardState: T.BoardState, instruction: T.Instruction): [T.BoardState, T.EffectFn] {
+export const simulate = (
+  boardState: T.BoardState,
+  instruction: T.Instruction
+): [T.BoardState, T.EffectFn] => {
   const proposedRobotState = updateRobotState(boardState.robot, instruction);
   const proposedBoardState = {
     robot: proposedRobotState,
@@ -12,13 +15,16 @@ export function simulate(boardState: T.BoardState, instruction: T.Instruction): 
     return [
       proposedBoardState,
       getEffectsForInstruction(proposedBoardState, instruction)
-    ];    
+    ];
   } else {
-    return [ boardState, () => {}];
+    return [boardState, noop];
   }
-}
+};
 
-export function getEffectsForInstruction(boardState: T.BoardState, instruction: T.Instruction): T.EffectFn {
+export const getEffectsForInstruction = (
+  boardState: T.BoardState,
+  instruction: T.Instruction
+): T.EffectFn => {
   if (instruction.type === 'report' && boardState.robot !== null) {
     const { x, y, direction } = boardState.robot;
 
@@ -26,15 +32,18 @@ export function getEffectsForInstruction(boardState: T.BoardState, instruction: 
       effects.report(x, y, direction);
     };
   } else {
-    return () => {};
+    return noop;
   }
-}
+};
 
 // Executes the requested instruction without concern for whether the new state is valid
-function updateRobotState(robotState: T.RobotState | null, instruction: T.Instruction): T.RobotState | null {
+const updateRobotState = (
+  robotState: T.RobotState | null,
+  instruction: T.Instruction
+): T.RobotState | null => {
   switch (instruction.type) {
-    case 'place': 
-      return { 
+    case 'place':
+      return {
         x: instruction.x,
         y: instruction.y,
         direction: instruction.direction
@@ -43,40 +52,44 @@ function updateRobotState(robotState: T.RobotState | null, instruction: T.Instru
       return moveRobotForwards(robotState);
     case 'rotate':
       return rotateRobot(robotState, instruction.direction);
-    default: 
+    default:
       return robotState;
-  } 
-}
+  }
+};
 
-function moveRobotForwards(robotState: T.RobotState | null): T.RobotState | null {
+const moveRobotForwards = (
+  robotState: T.RobotState | null
+): T.RobotState | null => {
   if (robotState === null) {
     return null;
   }
 
-  return { 
+  return {
     x: robotState.x + Direction.forwardXDelta(robotState.direction),
     y: robotState.y + Direction.forwardYDelta(robotState.direction),
     direction: robotState.direction
   };
-}
+};
 
-
-function rotateRobot(robotState: T.RobotState | null, direction: T.RotationalDirection): T.RobotState | null {
+const rotateRobot = (
+  robotState: T.RobotState | null,
+  direction: T.RotationalDirection
+): T.RobotState | null => {
   if (robotState === null) {
     return robotState;
   }
 
-  return { 
+  return {
     x: robotState.x,
     y: robotState.y,
     direction: Direction.degreesToCardinal(
-      Direction.cardinalToDegrees(robotState.direction) + 
-      Direction.rotationToDegrees(direction)
+      Direction.cardinalToDegrees(robotState.direction) +
+        Direction.rotationToDegrees(direction)
     )
   };
-}
+};
 
-function isBoardStateValid({ robot, board }: T.BoardState): boolean {
+const isBoardStateValid = ({ robot, board }: T.BoardState): boolean => {
   if (robot === null) {
     return true;
   }
@@ -92,4 +105,7 @@ function isBoardStateValid({ robot, board }: T.BoardState): boolean {
     // Rectangular is the only kind of board we understand right now
     return false;
   }
-}
+};
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop: T.EffectFn = () => {};

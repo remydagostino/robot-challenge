@@ -13,7 +13,7 @@ test('parses the PLACE command', () => {
     ['PLACE 0,0,EAST', Instruction.place(0, 0, T.CardinalDirection.East)],
     ['PLACE -3,8,EAST', Instruction.place(-3, 8, T.CardinalDirection.East)],
     ['place 1,2,WEST', Instruction.place(1, 2, T.CardinalDirection.West)],
-    ['  place 1 ,2,  WEST', Instruction.place(1, 2, T.CardinalDirection.West)],
+    ['  place 1 ,2,  WEST', Instruction.place(1, 2, T.CardinalDirection.West)]
   ];
 
   examples.forEach(([input, output]) => {
@@ -29,13 +29,17 @@ test('parses the MOVE instruction', () => {
 
 test('parses the LEFT instruction', () => {
   caseAndSpacePermeations('left').forEach((line) => {
-    expect(parseLine(line)).toEqual(Result.success(Instruction.rotate(T.RotationalDirection.Left)));
+    expect(parseLine(line)).toEqual(
+      Result.success(Instruction.rotate(T.RotationalDirection.Left))
+    );
   });
 });
 
 test('parses the RIGHT instruction', () => {
   caseAndSpacePermeations('right').forEach((line) => {
-    expect(parseLine(line)).toEqual(Result.success(Instruction.rotate(T.RotationalDirection.Right)));
+    expect(parseLine(line)).toEqual(
+      Result.success(Instruction.rotate(T.RotationalDirection.Right))
+    );
   });
 });
 
@@ -46,17 +50,11 @@ test('parses the REPORT instruction', () => {
 });
 
 test('parses blank instructions as comments', () => {
-  expect(parseLine('')).toEqual(
-    Result.success(Instruction.ignore())
-  );
+  expect(parseLine('')).toEqual(Result.success(Instruction.ignore()));
 });
 
 test('fails to parse unsupported instructions', () => {
-  [
-    'MORRVE',
-    'Reverse',
-    '~~~~',
-  ].forEach((line) => {
+  ['MORRVE', 'Reverse', '~~~~'].forEach((line) => {
     expect(parseLine(line)).toEqual(
       Result.failure(`Unrecognized command: ${line}`)
     );
@@ -81,13 +79,12 @@ test('fails to parse instructions with unexpected arguments', () => {
   );
 });
 
-
 // Takes "move" and creates ["MOVE", "Move", "move", "  move   "]
-function caseAndSpacePermeations(word: string): Array<string> {
+const caseAndSpacePermeations = (word: string): Array<string> => {
   return [
     word.toUpperCase(),
     word[0].toUpperCase() + word.split('').slice(1).join('').toLowerCase(),
     word.toLowerCase(),
     `    ${word}   `
   ];
-}
+};

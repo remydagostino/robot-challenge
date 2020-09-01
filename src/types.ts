@@ -48,3 +48,24 @@ export type RectangularBoard = {
   width: number
 }
 
+// A wrapper type for handling synchronous success/fail actions
+export type Result<A, E>
+  = Success<A>
+  | Failure<E>
+
+export type Success<A> = {
+  type: 'success',
+  value: A
+}
+
+export type Failure<E> = {
+  type: 'failure',
+  error: E
+}
+
+export type ParseError = {
+  type: 'parseError'
+  message: string
+  lineNumber: number
+}
+

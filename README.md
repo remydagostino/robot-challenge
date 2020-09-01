@@ -15,4 +15,3 @@ See spec.md for the specification.
 - I think it makes most sense (maximum flexibility) to read the input from stdin and write to stdout.
 - It makes sense to decouple the execution engine from the input source, as such, the executor will output and take as its input a generic async iterator
 - I've decided to make the parser insensitive to casing and whitespace, this should make it more user friendly.
-- I think I will extend the spec to permit a comment, starting with '#'

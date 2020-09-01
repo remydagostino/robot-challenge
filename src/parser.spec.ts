@@ -4,7 +4,7 @@ import * as Instruction from './data/instruction';
 import * as Result from './data/result';
 
 test('parses the PLACE command', () => {
-  [
+  const examples: Array<[string, T.Instruction]> = [
     ['PLACE 1,2,EAST', Instruction.place(1, 2, T.CardinalDirection.East)],
     ['PLACE 1,2,NORTH', Instruction.place(1, 2, T.CardinalDirection.North)],
     ['PLACE 1,2,SOUTH', Instruction.place(1, 2, T.CardinalDirection.South)],
@@ -14,7 +14,9 @@ test('parses the PLACE command', () => {
     ['PLACE -3,8,EAST', Instruction.place(-3, 8, T.CardinalDirection.East)],
     ['place 1,2,WEST', Instruction.place(1, 2, T.CardinalDirection.West)],
     ['  place 1 ,2,  WEST', Instruction.place(1, 2, T.CardinalDirection.West)],
-  ].forEach(([input, output]: [string, T.PlaceInstruction]) => {
+  ];
+
+  examples.forEach(([input, output]) => {
     expect(parseLine(input)).toEqual(Result.success(output));
   });
 });
@@ -45,12 +47,6 @@ test('parses the REPORT instruction', () => {
 
 test('parses blank instructions as comments', () => {
   expect(parseLine('')).toEqual(
-    Result.success(Instruction.ignore())
-  );
-});
-
-test('parses comments starting with "# " as comments', () => {
-  expect(parseLine('# A wonderful exercise')).toEqual(
     Result.success(Instruction.ignore())
   );
 });

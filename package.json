@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "A cute little programming challenge",
   "main": "bin/executor.js",
-  "bin": {
-    "robot-challenge": "bin/main.js"
-  },
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.11.5",

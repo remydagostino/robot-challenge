@@ -1,11 +1,11 @@
 {
   "target": "ES2019",
   "compilerOptions": {
+    "outDir": "bin",
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*"],
-  "outDir": "bin"
 }

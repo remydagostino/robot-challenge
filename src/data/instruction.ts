@@ -23,3 +23,7 @@ export function rotate(direction: T.RotationalDirection): T.RotateInstruction {
 export function report(): T.ReportInstruction {
   return { type: 'report' };
 }
+
+export function ignore(): T.IgnoreInstruction {
+  return { type: 'ignore' };
+}

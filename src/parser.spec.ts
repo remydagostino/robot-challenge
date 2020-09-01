@@ -43,9 +43,15 @@ test('parses the REPORT instruction', () => {
   });
 });
 
-test('fails to parse blank instructions', () => {
+test('parses blank instructions as comments', () => {
   expect(parseLine('')).toEqual(
-    Result.failure(`Could not parse line: `)
+    Result.success(Instruction.ignore())
+  );
+});
+
+test('parses comments starting with "# " as comments', () => {
+  expect(parseLine('# A wonderful exercise')).toEqual(
+    Result.success(Instruction.ignore())
   );
 });
 

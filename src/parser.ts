@@ -6,11 +6,17 @@ import * as Instruction from './data/instruction';
 type CommandAndArgs = { command: string, args: string };
 
 export function parseLine(line: string): T.Result<T.Instruction, string> {
+  if (line.trim() === '') {
+    return Result.success(Instruction.ignore());
+  }
+
   return Result.flatMap(parseCommandAndArgs, splitLine(line));
 }
 
 function parseCommandAndArgs({ command, args }: CommandAndArgs): T.Result<T.Instruction, string> {
   switch (command.toLowerCase()) {
+    case '#': // <- a comment
+      return Result.success(Instruction.ignore());
     case 'place':
       return parsePlaceCommandWithArgs(args);
     case 'move':

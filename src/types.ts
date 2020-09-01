@@ -4,7 +4,8 @@ export type Instruction
   = PlaceInstruction
   | MoveInstruction
   | RotateInstruction
-  | ReportInstruction;
+  | ReportInstruction
+  | IgnoreInstruction;
 
 export type PlaceInstruction = {
   type: 'place',
@@ -24,6 +25,10 @@ export type RotateInstruction = {
 
 export type ReportInstruction = {
   type: 'report'
+}
+
+export type IgnoreInstruction = {
+  type: 'ignore'
 }
 
 export enum CardinalDirection {

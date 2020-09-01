@@ -1,6 +1,7 @@
 {
   "target": "ES2019",
   "compilerOptions": {
+    "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,

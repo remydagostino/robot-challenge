@@ -3,7 +3,7 @@ import * as T from './types';
 import { parseLine } from './parser';
 import { simulate } from './simulation';
 
-export async function* instructionGeneratorFromAsyncIterator(stringIterator: AsyncIterableIterator<string>): AsyncGenerator<T.Instruction> {
+export async function* instructionGeneratorFromAsyncIterator(stringIterator: AsyncIterableIterator<string>): AsyncIterableIterator<T.Instruction> {
   let inputIndex = 0;
 
   for await (const line of stringIterator) {
@@ -18,7 +18,7 @@ export async function* instructionGeneratorFromAsyncIterator(stringIterator: Asy
   } 
 }
 
-export async function* executeInstructions(boardState: T.BoardState, instructions: AsyncGenerator<T.Instruction>): AsyncGenerator<T.EffectFn> {
+export async function* executeInstructions(boardState: T.BoardState, instructions: AsyncIterableIterator<T.Instruction>): AsyncIterableIterator<T.EffectFn> {
   let currentBoardState = boardState;
 
   for await (const instruction of instructions) {

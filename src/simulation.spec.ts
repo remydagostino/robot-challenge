@@ -38,13 +38,15 @@ test('Place instruction moves the robot on the board', () => {
 });
 
 test('The robot moves in the direction it is facing', () => {
-  const directionData = [
+  const directionData: Array<[T.CardinalDirection, [number, number], [number, number]]> = [
     // Direction                from    to
     [T.CardinalDirection.North, [1, 1], [1, 2]],
     [T.CardinalDirection.East,  [1, 1], [2, 1]],
     [T.CardinalDirection.South, [1, 1], [1, 0]],
     [T.CardinalDirection.West,  [1, 1], [0, 1]]
-  ].forEach(([direction, from, to]: [T.CardinalDirection, [number, number], [number, number]]) => {
+  ]
+
+  directionData.forEach(([direction, from, to]) => {
     const [ updatedBoardState, effectFn ] = simulate(
       { robot: { x: from[0], y: from[1], direction }, board: GameBoard.defaultBoard() },
       Instruction.move()

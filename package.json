@@ -2,22 +2,26 @@
   "name": "robot-challenge",
   "version": "1.0.0",
   "description": "A cute little programming challenge",
-  "main": "src/main.js",
-  "dependencies": {
+  "main": "bin/executor.js",
+  "bin": {
+    "robot-challenge": "bin/main.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
     "@babel/core": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
     "@types/jest": "^26.0.12",
-    "babel-jest": "^26.3.0",
     "jest": "^26.4.2",
+    "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "jest",
-    "test-watch": "jest --watch",
-    "main": "ts-node src/main.ts"
+    "test:watch": "jest --watch",
+    "main": "ts-node src/main.ts",
+    "compile-bin": "tsc"
   },
   "repository": {
     "type": "git",

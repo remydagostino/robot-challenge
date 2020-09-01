@@ -6,5 +6,6 @@
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "outDir": "bin"
 }

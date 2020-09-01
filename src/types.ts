@@ -48,6 +48,27 @@ export type RectangularBoard = {
   width: number
 }
 
+export type RobotState = {
+  x: number,
+  y: number,
+  direction: CardinalDirection
+}
+
+export type BoardState = {
+  robot: null | RobotState,
+  board: GameBoard
+}
+
+export type ReportEffect = 
+  (x: number, y: number, direction: CardinalDirection) => void;
+
+export type AppEffects = { 
+  report: ReportEffect 
+};
+
+export type EffectFn = 
+  (effects: AppEffects) => void;
+
 // A wrapper type for handling synchronous success/fail actions
 export type Result<A, E>
   = Success<A>

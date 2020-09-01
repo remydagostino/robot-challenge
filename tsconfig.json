@@ -1,0 +1,8 @@
+{
+  "target": "ES2019",
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  },
+  "include": ["src/**/*"]
+}

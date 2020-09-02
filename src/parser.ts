@@ -18,8 +18,6 @@ const parseCommandAndArgs = ({
   args
 }: CommandAndArgs): T.Result<T.Instruction, string> => {
   switch (command.toLowerCase()) {
-    case '#': // <- a comment
-      return Result.success(Instruction.ignore());
     case 'place':
       return parsePlaceCommandWithArgs(args);
     case 'move':

@@ -25,7 +25,7 @@ const main = async (): Promise<void> => {
 
   for await (const effectFn of execution) {
     effectFn({
-      report(x: number, y: number, direction: T.CardinalDirection) {
+      report: (x: number, y: number, direction: T.CardinalDirection) => {
         process.stdout.write(
           `Output: ${x},${y},${prettyPrintCardinal(direction)}\n`
         );

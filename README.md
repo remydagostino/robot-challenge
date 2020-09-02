@@ -2,7 +2,7 @@
 
 A cute little programming challenge.
 
-See (spec.md)[https://github.com/remydagostino/robot-challenge/blob/master/spec.md] for the specification.
+See [spec.md](https://github.com/remydagostino/robot-challenge/blob/master/spec.md) for the specification.
 
 ## Setup
 

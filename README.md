@@ -16,7 +16,7 @@ Typescript is required to compile the project. I am using ts-node to compile and
 
 - Run `npm install` in the root directory
 - Run `npm run test` to execute the unit and integration tests
-- To run the program against an input file, such as the ones in `example-data`, use `npm run main < example-data/example1`
+- To run the program against an input file, such as the ones in `example-data`, use `npm run main < example-data/example1.txt`
 - Running the program without a file, `npm run main` creates starts a REPL where robot instructions can be entered directly
 
 ### Installation with docker

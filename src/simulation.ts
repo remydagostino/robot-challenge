@@ -96,6 +96,7 @@ const isBoardStateValid = ({ robot, board }: T.BoardState): boolean => {
 
   if (board.type === 'rectangular') {
     return (
+      !isRobotOnObstacle(robot, board.obstacles) &&
       robot.x >= 0 &&
       robot.y >= 0 &&
       robot.x < board.width &&
@@ -105,6 +106,17 @@ const isBoardStateValid = ({ robot, board }: T.BoardState): boolean => {
     // Rectangular is the only kind of board we understand right now
     return false;
   }
+};
+
+const isRobotOnObstacle = (
+  robot: T.RobotState,
+  obstacles: Array<T.Obstactle>
+): boolean => {
+  const foundObstacle = obstacles.find((obstacle) => {
+    return obstacle.x === robot.x && obstacle.y === robot.y;
+  });
+
+  return foundObstacle != null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function

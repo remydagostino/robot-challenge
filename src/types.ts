@@ -46,10 +46,16 @@ export enum RotationalDirection {
 // Just one kind of game board for now
 export type GameBoard = RectangularBoard;
 
+export type Obstactle = {
+  x: number;
+  y: number;
+};
+
 export type RectangularBoard = {
   type: 'rectangular';
   height: number;
   width: number;
+  obstacles: Array<Obstactle>;
 };
 
 export type RobotState = {

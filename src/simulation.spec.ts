@@ -166,3 +166,33 @@ test('The effectFn calls the report effect for the report instruction', () => {
     [2, 3, T.CardinalDirection.North]
   ]);
 });
+
+test('The robot can not be placed somewhere with an obstacle', () => {
+  const [updatedBoardState, effectFn] = simulate(
+    {
+      robot: null,
+      board: GameBoard.defaultBoardWithObstacles([{ x: 1, y: 1 }])
+    },
+    Instruction.place(1, 1, T.CardinalDirection.West)
+  );
+
+  expect(updatedBoardState).toEqual({
+    robot: null,
+    board: GameBoard.defaultBoardWithObstacles([{ x: 1, y: 1 }])
+  });
+});
+
+test('The robot can not be moved somewhere with an obstacle', () => {
+  const [updatedBoardState, effectFn] = simulate(
+    {
+      robot: { x: 0, y: 0, direction: T.CardinalDirection.North },
+      board: GameBoard.defaultBoardWithObstacles([{ x: 0, y: 1 }])
+    },
+    Instruction.move()
+  );
+
+  expect(updatedBoardState).toEqual({
+    robot: { x: 0, y: 0, direction: T.CardinalDirection.North },
+    board: GameBoard.defaultBoardWithObstacles([{ x: 0, y: 1 }])
+  });
+});

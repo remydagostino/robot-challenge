@@ -30,7 +30,9 @@ const main = async (): Promise<void> => {
           `Output: ${x},${y},${prettyPrintCardinal(direction)}\n`
         );
       },
-      pathfind: (x: number, y: number) => {}
+      pathfind: (x: number, y: number) => {
+        
+      }
     });
   }
 };

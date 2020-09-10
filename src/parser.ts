@@ -36,6 +36,8 @@ const parseCommandAndArgs = ({
       return !args
         ? Result.success(Instruction.report())
         : Result.failure(`Unrecognized arguments for REPORT command: ${args}`);
+    case 'findpath':
+      return findpathCommandWithArgs(args);
     default:
       return Result.failure(`Unrecognized command: ${command}`);
   }
@@ -50,6 +52,26 @@ const splitLine = (line: string): T.Result<CommandAndArgs, string> => {
     return Result.success({ command, args: args || '' });
   } else {
     return Result.failure(`Could not parse line: ${line}`);
+  }
+};
+
+const findpathCommandWithArgs = (
+  args: string
+): T.Result<T.FindPathInstruction, string> => {
+  const argsMatch = args.split(',');
+
+  if (argsMatch.length === 2) {
+    const [xMatch, yMatch] = args.split(',');
+
+    return Result.map2(
+      Instruction.findpath,
+      stringToInt(xMatch),
+      stringToInt(yMatch)
+    );
+  } else {
+    return Result.failure(
+      `Unrecognized arguments for FINDPATH command: ${args}`
+    );
   }
 };
 

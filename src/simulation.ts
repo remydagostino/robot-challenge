@@ -31,6 +31,12 @@ export const getEffectsForInstruction = (
     return (effects: T.AppEffects) => {
       effects.report(x, y, direction);
     };
+  } else if (instruction.type === 'findpath' && boardState.robot !== null) {
+    const { x, y } = instruction;
+
+    return (effects: T.AppEffects) => {
+      effects.findpath(x, y);
+    };
   } else {
     return noop;
   }

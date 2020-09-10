@@ -29,7 +29,8 @@ const main = async (): Promise<void> => {
         process.stdout.write(
           `Output: ${x},${y},${prettyPrintCardinal(direction)}\n`
         );
-      }
+      },
+      pathfind: (x: number, y: number) => {}
     });
   }
 };

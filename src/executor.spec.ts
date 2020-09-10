@@ -76,7 +76,7 @@ test('executing instructions', async () => {
     ])
   );
 
-  const effects: T.AppEffects = { report: jest.fn() };
+  const effects: T.AppEffects = { report: jest.fn(), findpath: jest.fn() };
   const items = await collectAsyncGeneratorItems(gen);
 
   items.forEach((effectFn) => {

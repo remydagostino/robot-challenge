@@ -5,6 +5,7 @@ export type Instruction =
   | MoveInstruction
   | RotateInstruction
   | ReportInstruction
+  | FindPathInstruction
   | IgnoreInstruction;
 
 export type PlaceInstruction = {
@@ -27,6 +28,12 @@ export type ReportInstruction = {
   type: 'report';
 };
 
+export type FindPathInstruction = {
+  type: 'findpath';
+  x: number;
+  y: number;
+};
+
 export type IgnoreInstruction = {
   type: 'ignore';
 };
@@ -45,6 +52,11 @@ export enum RotationalDirection {
 
 // Just one kind of game board for now
 export type GameBoard = RectangularBoard;
+
+export type Coordinate = {
+  x: number;
+  y: number;
+};
 
 export type Obstactle = {
   x: number;
@@ -75,8 +87,11 @@ export type ReportEffect = (
   direction: CardinalDirection
 ) => void;
 
+export type FindPathEffect = (x: number, y: number) => void;
+
 export type AppEffects = {
   report: ReportEffect;
+  findpath: FindPathEffect;
 };
 
 export type EffectFn = (effects: AppEffects) => void;

@@ -157,7 +157,8 @@ test('The effectFn calls the report effect for the report instruction', () => {
   );
 
   const effects: T.AppEffects = {
-    report: jest.fn()
+    report: jest.fn(),
+    findpath: jest.fn()
   };
 
   effectFn(effects);
@@ -165,6 +166,25 @@ test('The effectFn calls the report effect for the report instruction', () => {
   expect((effects.report as jest.Mock).mock.calls).toEqual([
     [2, 3, T.CardinalDirection.North]
   ]);
+});
+
+test('The effectFn calls the findpath effect for the findpath instruction', () => {
+  const [updatedBoardState, effectFn] = simulate(
+    {
+      robot: { x: 2, y: 3, direction: T.CardinalDirection.North },
+      board: GameBoard.defaultBoard()
+    },
+    Instruction.findpath(4, 5)
+  );
+
+  const effects: T.AppEffects = {
+    report: jest.fn(),
+    findpath: jest.fn()
+  };
+
+  effectFn(effects);
+
+  expect((effects.findpath as jest.Mock).mock.calls).toEqual([[4, 5]]);
 });
 
 test('The robot can not be placed somewhere with an obstacle', () => {

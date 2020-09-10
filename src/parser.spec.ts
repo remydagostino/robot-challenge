@@ -49,6 +49,19 @@ test('parses the REPORT instruction', () => {
   });
 });
 
+test('parses the FINDPATH instruction', () => {
+  const examples: Array<[string, T.Instruction]> = [
+    ['FINDPATH 1,2', Instruction.findpath(1, 2)],
+    ['FINDPATH 2,2', Instruction.findpath(2, 2)],
+    ['FINDPATH 1,4', Instruction.findpath(1, 4)],
+    ['FINDPATH 3,4', Instruction.findpath(3, 4)]
+  ];
+
+  examples.forEach(([input, output]) => {
+    expect(parseLine(input)).toEqual(Result.success(output));
+  });
+});
+
 test('parses blank instructions as comments', () => {
   expect(parseLine('')).toEqual(Result.success(Instruction.ignore()));
 });

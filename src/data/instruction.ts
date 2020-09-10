@@ -30,6 +30,10 @@ export const report = (): T.ReportInstruction => {
   return { type: 'report' };
 };
 
+export const findpath = (x: number, y: number): T.FindPathInstruction => {
+  return { type: 'findpath', x, y };
+};
+
 export const ignore = (): T.IgnoreInstruction => {
   return { type: 'ignore' };
 };
